@@ -1,7 +1,15 @@
-# DeepMusic — releases e site
+# DeepMusic — Releases e site
 
-- `index.html`: página de download (Vercel)
-- `api/update.js`: gera o `update.json` a partir da última Release do GitHub
-- Os APKs ficam nas **Releases** deste repositório
+- **Página de download:** https://deepmusic-rarths-projects.vercel.app
+- **update.json do app:** https://deepmusic-rarths-projects.vercel.app/api/update
+- **APKs:** aba *Releases* deste repositório
 
-O app aponta para `https://<projeto>.vercel.app/api/update`.
+## Estrutura
+- `index.html` — página de download (Vercel)
+- `api/update.js` — lê a última Release e devolve o JSON do app
+- `package.json` / `vercel.json` — configuração do projeto
+
+## Publicar
+O script `tools/release-apk.sh` do projeto DeepMusic cria a Release
+(`vX.Y.Z`) com o APK + `update.json`; o site passa a servir a nova versão
+automaticamente (cache de 5 minutos).
