@@ -55,6 +55,8 @@
       Para atualizar pelo próprio app: Configurações → “URL do update.json” →
       cole <code id="update-url"></code> e toque em “Verificar agora”.
     </p>
+    <p class="meta" id="stats" style="display:none"></p>
+    <div id="history" style="margin-top:6px"></div>
     <p class="meta">
       Arquivo: <code id="apk"></code><br>
       SHA-256: <code id="sha"></code><br>
@@ -96,6 +98,27 @@
         document.getElementById("notes").textContent = "Não foi possível carregar a versão.";
         document.getElementById("status").textContent = "Tente novamente em instantes.";
       });
+
+    fetch(location.origin + "/api/stats")
+      .then((r) => r.json())
+      .then((data) => {
+        if (!data || !Array.isArray(data.releases)) return;
+        const stats = document.getElementById("stats");
+        stats.style.display = "block";
+        stats.innerHTML =
+          "<strong>" + data.total + "</strong> download(s) no total · " +
+          data.releases.length + " versão(ões) publicada(s)";
+
+        const history = document.getElementById("history");
+        history.innerHTML =
+          '<p class="meta" style="margin-top:6px">' +
+          data.releases
+            .slice(0, 5)
+            .map((r) => r.tag + " — " + r.downloads + " download(s)")
+            .join("<br>") +
+          "</p>";
+      })
+      .catch(() => {});
   </script>
 </body>
 </html>
